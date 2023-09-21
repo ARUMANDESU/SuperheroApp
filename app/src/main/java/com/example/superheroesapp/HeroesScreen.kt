@@ -1,13 +1,20 @@
 package com.example.superheroesapp
 
 import android.hardware.camera2.params.MeteringRectangle
+import android.widget.Space
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
@@ -16,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,20 +50,31 @@ fun SuperheroItem(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
-            modifier = Modifier.padding(16.dp)
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.padding_medium))
+                .sizeIn(minHeight = 72.dp)
         ) {
             SuperheroItemInfo(
                 nameRes = hero.nameRes,
                 descriptionRes = hero.descriptionRes,
-                modifier = Modifier.padding(end = 16.dp)
+                modifier = Modifier.weight(1f)
             )
-            Image(
-                painter = painterResource(id = hero.imageRes),
-                contentDescription = stringResource(id = hero.descriptionRes),
+            Spacer(Modifier.width(dimensionResource(id = R.dimen.padding_medium)))
+            Box(
                 modifier = Modifier
-                    .size(72.dp)
+                    .size(dimensionResource(id = R.dimen.image_size)) // Set a fixed size for the image here
                     .clip(MaterialTheme.shapes.small)
-            )
+            ) {
+                Image(
+                    painter = painterResource(id = hero.imageRes),
+                    contentDescription = stringResource(id = hero.descriptionRes),
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxSize(),
+
+                )
+            }
         }
     }
 }
@@ -85,12 +105,24 @@ fun SuperheroItemInfo(
 }
 
 /**
- *  Composable to preview SuperheroItem
+ *  Composable to preview SuperheroItem light theme
  * */
 @Preview
 @Composable
 fun SuperheroItemPreview(){
     SuperHeroesAppTheme {
-        SuperheroItem(hero = HeroesRepository.heroes[1])
+        SuperheroItem(hero = HeroesRepository.heroes[0])
+    }
+}
+
+
+/**
+ *  Composable to preview SuperheroItem dark theme
+ * */
+@Preview
+@Composable
+fun SuperheroItemPreviewDark(){
+    SuperHeroesAppTheme(darkTheme = true) {
+        SuperheroItem(hero = HeroesRepository.heroes[0])
     }
 }
