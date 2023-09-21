@@ -1,5 +1,6 @@
 package com.example.superheroesapp
 
+import android.content.res.Configuration
 import android.hardware.camera2.params.MeteringRectangle
 import android.widget.Space
 import androidx.annotation.StringRes
@@ -105,24 +106,13 @@ fun SuperheroItemInfo(
 }
 
 /**
- *  Composable to preview SuperheroItem light theme
+ *  Composable to preview SuperheroItem
  * */
-@Preview
+@Preview("Light Theme")
+@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun SuperheroItemPreview(){
     SuperHeroesAppTheme {
-        SuperheroItem(hero = HeroesRepository.heroes[0])
-    }
-}
-
-
-/**
- *  Composable to preview SuperheroItem dark theme
- * */
-@Preview
-@Composable
-fun SuperheroItemPreviewDark(){
-    SuperHeroesAppTheme(darkTheme = true) {
         SuperheroItem(hero = HeroesRepository.heroes[0])
     }
 }
